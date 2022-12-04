@@ -1,6 +1,6 @@
 :root {
-  --primary-color: #8e2de2;
-  --secondary-color: #4a00e0;
+  --primary-color: #4ea685;
+  --secondary-color: #57b894;
   --black: #000000;
   --white: #ffffff;
   --gray: #efefef;
@@ -278,40 +278,6 @@ body {
   right: 50%;
 }
 
-.qr-code {
-  width: 120px;
-  height: 120px;
-  background: #000;
-  margin-bottom: 1.2rem;
-  margin: 20px auto;
-}
-.stretch {
-  display: flex;
-  align-items: stretch;
-}
-.form-col.qr-form {
-  display: none;
-}
-.form-col {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.none {
-  display: none;
-}
-.block {
-  display: block !;
-}
-b {
-  cursor: pointer;
-}
-.form-sign-in.show-qr .qr-form {
-  display: block;
-}
-.form-sign-in.show-qr .pass {
-  display: none;
-}
 /* RESPONSIVE */
 
 @media only screen and (max-width: 425px) {
@@ -325,6 +291,10 @@ b {
     transform: none;
     right: 0;
   }
+
+  /* .container.sign-in .col.sign-up {
+        transform: translateY(100%);
+    } */
 
   .container.sign-in .col.sign-in,
   .container.sign-up .col.sign-up {
@@ -374,11 +344,5 @@ b {
   .text h2 {
     margin: 0.5rem;
     font-size: 2rem;
-  }
-  .qr-form {
-    display: none;
-  }
-  .alert {
-    display: none;
   }
 }
