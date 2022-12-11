@@ -2793,9 +2793,12 @@ section.hero {
   -webkit-box-shadow: 0px 15px 60px rgba(67, 69, 70, 0.05);
   box-shadow: 0px 15px 60px rgba(67, 69, 70, 0.05);
 }
-
+.none-cusor {
+  pointer-events: none;
+}
 .blog__item__pic {
   height: 270px;
+  background-size: contain;
 }
 
 .blog__item__text {
@@ -3898,4 +3901,20 @@ section.hero {
   .categories__text:before {
     height: 250px;
   }
+}
+
+.bo {
+  width: 100%;
+  display: flex;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.img_x {
+  width: 30%;
+}
+.fl {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

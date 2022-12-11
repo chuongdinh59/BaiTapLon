@@ -1,12 +1,21 @@
 from flask_admin.contrib.sqla import ModelView
 from app.models.index import *
 from utils import QRscan
+from flask import redirect
 from flask_admin import Admin, expose, BaseView
 from wtforms import TextAreaField
 from wtforms.widgets import TextArea
+from flask_login import logout_user, current_user
 admin = Admin(app, name='QUẢN TRỊ BÁN SÁCH', template_mode='bootstrap4')
 
+class AuthenticatedModelView(ModelView):
+    def is_accessible(self):
+        return current_user.is_authenticated and current_user.user_role == UserRoleEnum.ADMIN
 
+
+class AuthenticatedView(BaseView):
+    def is_accessible(self):
+        return current_user.is_authenticated
 
 class CKTextAreaWidget(TextArea):
     def __call__(self, field, **kwargs):
@@ -41,15 +50,20 @@ class ScanBookView(BaseView):
         data = QRscan.scan()
         print(data)
         return self.render('admin/scan.html', book = data)
+class LogoutView(BaseView):
+    @expose('/')
+    def logoutview(self):
+       logout_user()
+       return redirect('/admin')
 
-admin.add_view(BookModelView(BookModel, db.session))
-admin.add_view(ModelView(Tag, db.session))
-admin.add_view(ModelView(BookImageModel, db.session))
-# admin.add_view(ScanBookView(name = "Scan_Book"))
+admin.add_view(AuthenticatedModelView(BookModel, db.session, name="Quản lý sách"))
+admin.add_view(AuthenticatedModelView(Tag, db.session))
+admin.add_view(AuthenticatedModelView(BookImageModel, db.session))
+admin.add_view(LogoutView(name = "Đăng xuất"))
 
 # admin.add_view(ModelView(UserModel, db.session))
-# admin.add_view(ModelView(ReceiptModel, db.session))
-# admin.add_view(ModelView(ReceiptDetailsModels, db.session))
+admin.add_view(ModelView(ReceiptModel, db.session))
+admin.add_view(ModelView(ReceiptDetailsModels, db.session))
 # admin.add_view(ModelView(AuthorModel, db.session))
 # admin.add_view(ModelView(FeedbackModel, db.session))
 # admin.add_view(ModelView(VoucherModel, db.session))

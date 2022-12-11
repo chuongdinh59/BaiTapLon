@@ -1,0 +1,173 @@
+{% extends 'layout/base.html' %} {% block content %}
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-option">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="breadcrumb__text">
+          <h4>Check Out</h4>
+          <div class="breadcrumb__links">
+            <a href="./index.html">Home</a>
+            <a href="./shop.html">Shop</a>
+            <span>Check Out</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<!-- Checkout Section Begin -->
+<section class="checkout spad">
+  <div class="container">
+    <div class="checkout__form">
+      <form
+        action="#"
+        onsubmit="event.preventDefault(); createOrder(getOrderWeb({{cart}}, {{current_user.id}}) )"
+      >
+        <div class="row">
+          <div class="col-lg-8 col-md-6">
+            <!-- <h6 class="coupon__code">
+              <span class="icon_tag_alt"></span> Have a coupon?
+              <a href="#">Click here</a> to enter your code
+            </h6> -->
+            <h6 class="checkout__title">Billing Details</h6>
+            <div class="row">
+              <div class="col-lg-6"></div>
+            </div>
+            <div class="checkout__input">
+              <p>Address<span>*</span></p>
+              <input
+                type="text"
+                placeholder="{{current_user.address}}"
+                class="checkout__input__add"
+                value="{{current_user.address}}"
+              />
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="checkout__input">
+                  <p>Phone<span>*</span></p>
+                  <input
+                    type="text"
+                    placeholder="{{current_user.phone}}"
+                    value="{{current_user.phone}}"
+                    id="phone"
+                  />
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="checkout__input">
+                  <p>Email<span>*</span></p>
+                  <input
+                    type="email"
+                    placeholder="{{current_user.email}}"
+                    value="{{current_user.email}}"
+                    id="email"
+                    disabled
+                  />
+                </div>
+              </div>
+            </div>
+
+            <label for="diff-acc">
+              Note about your order, e.g, special noe for delivery
+              <span class="checkmark"></span>
+            </label>
+            <div class="checkout__input">
+              <p>Order notes<span>*</span></p>
+              <input
+                type="text"
+                placeholder="Notes about your order, e.g. special notes for delivery."
+                id="note"
+              />
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="checkout__order">
+              <h4 class="order__title">Your order</h4>
+              <div class="checkout__order__products">
+                Product <span>Total</span>
+              </div>
+              <ul class="checkout__total__products">
+                <!-- <li>01. Vanilla salted caramel <span>$ 300.0</span></li>
+                <li>02. German chocolate <span>$ 170.0</span></li>
+                <li>03. Sweet autumn <span>$ 170.0</span></li>
+                <li>04. Cluten free mini dozen <span>$ 110.0</span></li> -->
+                {% for c in cart.values() %}
+                <li>{{c.name}} <span>{{c.price * c.quantity}}</span></li>
+                {% endfor %}
+              </ul>
+              <ul class="checkout__total__all">
+                <li id="checkout_subtotal">
+                  Subtotal <span>{{cart_stats.total_amount}}</span>
+                </li>
+                <li id="checkout_total">Total <span></span></li>
+              </ul>
+
+              <div class="checkout__input__checkbox">
+                <label for="payment">
+                  Check Payment
+                  <input type="checkbox" id="payment" />
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+              <div class="checkout__input__checkbox">
+                <label for="paypal">
+                  Paypal
+                  <input type="checkbox" id="paypal" />
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+              <button type="submit" class="site-btn">PLACE ORDER</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<button
+  type="button"
+  class="btn btn-info btn-lg"
+  data-toggle="modal"
+  data-target="#myModal"
+  id="btnModal"
+  style="display: none"
+>
+  Open Modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Đặt thành hàng thành công</h4>
+        <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="text-success">Đơn hàng đẫ được ghi nhận</p>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-default"
+          data-dismiss="modal"
+          onclick="redirect('/')"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Checkout Section End -->
+{% endblock %} {% block script %}
+<script src="{{url_for('static', filename='js/checkout.js')}}"></script>
+{% endblock %}

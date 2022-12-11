@@ -1,0 +1,72 @@
+{% extends 'layout/base.html' %} {% block content %} {% block css %}
+<link
+  href="{{ url_for('static', filename='css/book.css') }}"
+  rel="stylesheet"
+/>{% endblock %}
+<div class="container mt-5 mb-5 book">
+  <div class="row d-flex justify-content-center">
+    <div class="col-md-10">
+      <div class="card">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="images p-3">
+              <div class="text-center p-4">
+                <img
+                  id="main-image"
+                  src="https://theedge.vn/wp-content/uploads/2020/11/sach-hoc-ielts-cho-nguoi-moi-bat-dau.jpg"
+                  width="250"
+                />
+              </div>
+              <div class="thumbnail text-center">
+                <img
+                  onclick="change_image(this)"
+                  src="https://theedge.vn/wp-content/uploads/2020/11/sach-hoc-ielts-cho-nguoi-moi-bat-dau.jpg"
+                  width="70"
+                />
+                <img
+                  onclick="change_image(this)"
+                  src="http://st.ebomb.edu.vn/src/ielts-fighter/2019/08/26/8-cuon-sach-khong-the-bo-qua-khi-luyen-thi-ielts-1.jpg"
+                  width="70"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="product p-4">
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                  <i class="fa fa-long-arrow-left"></i>
+                  <a href="/shop?page=1" class="ml-1 text-danger">Back</a>
+                </div>
+                <a href="/shoping-cart"
+                  ><i class="fa fa-shopping-cart text-muted"></i
+                ></a>
+              </div>
+              <div class="mt-4 mb-3">
+                <span class="text-uppercase text-muted brand"
+                  >{{book.category}}</span
+                >
+                <h5 class="text-uppercase">{{book.name}}</h5>
+                <div class="price d-flex flex-row align-items-center">
+                  <span class="act-price">{{book.unitPrice}} VNĐ</span>
+                </div>
+              </div>
+              <p class="about">{{book.desc}}</p>
+              <div class="cart mt-4 align-items-center">
+                <button
+                  class="btn btn-danger text-uppercase mr-2 px-4"
+                  onclick="verifyAddToCart({{book.id}},'{{book.name}}',{{book.unitPrice}}, '{{current_user.is_authenticated}}')"
+                >
+                  Add to cart
+                </button>
+                <i class="fa fa-heart text-muted"></i>
+                <i class="fa fa-share-alt text-muted"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

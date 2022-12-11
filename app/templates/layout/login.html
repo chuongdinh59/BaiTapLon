@@ -64,16 +64,16 @@
         </div>
         <!-- END SIGN UP -->
         <!-- SIGN IN -->
-        <div class="col align-items-center flex-col form-sign-in sign-in">
+        <form class="col align-items-center flex-col form-sign-in sign-in" method="post" action="/login">
           <div class="form-wrapper align-items-center stretch">
             <div class="form sign-in form-col pass">
               <div class="input-group">
                 <i class="bx bxs-user"></i>
-                <input type="text" placeholder="Username" />
+                <input name="username" type="text" placeholder="Username" />
               </div>
               <div class="input-group">
                 <i class="bx bxs-lock-alt"></i>
-                <input type="password" placeholder="Password" />
+                <input name="password" type="password" placeholder="Password" />
               </div>
               <button>Sign in</button>
               <p>
@@ -102,7 +102,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </form>
         <!-- END SIGN IN -->
       </div>
       <!-- END FORM SECTION -->

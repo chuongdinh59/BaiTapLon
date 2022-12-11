@@ -25,8 +25,8 @@
       <div class="col-lg-3">
         <div class="shop__sidebar">
           <div class="shop__sidebar__search">
-            <form action="#">
-              <input type="text" placeholder="Search..." />
+            <form action="/shop">
+              <input name="kw" type="text" placeholder="Search..." />
               <button type="submit"><span class="icon_search"></span></button>
             </form>
           </div>
@@ -46,21 +46,19 @@
                   <div class="card-body">
                     <div class="shop__sidebar__categories">
                       <ul class="nice-scroll">
-                        <li><a href="#">Men (20)</a></li>
-                        <li><a href="#">Women (20)</a></li>
-                        <li><a href="#">Bags (20)</a></li>
-                        <li><a href="#">Clothing (20)</a></li>
-                        <li><a href="#">Shoes (20)</a></li>
-                        <li><a href="#">Accessories (20)</a></li>
-                        <li><a href="#">Kids (20)</a></li>
-                        <li><a href="#">Kids (20)</a></li>
-                        <li><a href="#">Kids (20)</a></li>
+                        {% for c in categories %}
+                        <li>
+                          <a href="/shop?page=1&category={{c.id}}"
+                            >{{c.name}}</a
+                          >
+                        </li>
+                        {% endfor %}
                       </ul>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="card">
+              <!-- <div class="card">
                 <div class="card-heading">
                   <a data-toggle="collapse" data-target="#collapseTwo"
                     >Branding</a
@@ -82,7 +80,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
               <div class="card">
                 <div class="card-heading">
                   <a data-toggle="collapse" data-target="#collapseThree"
@@ -97,12 +95,8 @@
                   <div class="card-body">
                     <div class="shop__sidebar__price">
                       <ul>
-                        <li><a href="#">$0.00 - $50.00</a></li>
-                        <li><a href="#">$50.00 - $100.00</a></li>
-                        <li><a href="#">$100.00 - $150.00</a></li>
-                        <li><a href="#">$150.00 - $200.00</a></li>
-                        <li><a href="#">$200.00 - $250.00</a></li>
-                        <li><a href="#">250.00+</a></li>
+                        <!-- <li><a href="?sort=0">Low to High</a></li>
+                        <li><a href="?sort=1">Hight to Low</a></li> -->
                       </ul>
                     </div>
                   </div>
@@ -120,13 +114,9 @@
                 >
                   <div class="card-body">
                     <div class="shop__sidebar__tags">
-                      <a href="#">Product</a>
-                      <a href="#">Bags</a>
-                      <a href="#">Shoes</a>
-                      <a href="#">Fashio</a>
-                      <a href="#">Clothing</a>
-                      <a href="#">Hats</a>
-                      <a href="#">Accessories</a>
+                      {% for t in tags %}
+                      <a href="#">{{t.name}}</a>
+                      {% endfor %}
                     </div>
                   </div>
                 </div>
@@ -143,21 +133,25 @@
                 <p>Showing 1–12 of 126 results</p>
               </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-6">
+            <!-- <div class="col-lg-6 col-md-6 col-sm-6">
               <div class="shop__product__option__right">
-                <p>Sort by Price:</p>
-                <select>
-                  <option value="">Low To High</option>
-                  <option value="">High To Low</option>
-                </select>
-              </div>
-            </div>
+                <p>Sort by Price:</p> -->
+            <!-- <select>
+                  <option>
+                    <a href="/shop?sort=0">Low to High</a>
+                  </option>
+                  <option>
+                    <a href="/shop?sort=1">High to Low</a>
+                  </option>
+                </select> -->
+            <!-- </div>
+            </div> -->
           </div>
         </div>
         <div class="row">
           {% for b in books %}
           <div class="col-lg-4 col-md-6 col-sm-6">
-            <div class="product__item">
+            <div class="product__item" onclick="redirect('/book:{{b.id}}')" >
               <div
                 class="product__item__pic set-bg"
                 data-setbg="{{b.thumb}}"
@@ -180,7 +174,9 @@
               </div>
               <div class="product__item__text">
                 <h6>{{b.name}}</h6>
-                <a href="#" class="add-cart">+ Add To Cart</a>
+                <a href="javascript:;" onclick="verifyAddToCart({{b.id}},'{{b.name}}',{{b.unitPrice}}, '{{current_user.is_authenticated}}')" class="add-cart"></button>
+                  + Add To Cart
+                </a>
                 <div class="rating">
                   <i class="fa fa-star-o"></i>
                   <i class="fa fa-star-o"></i>
@@ -188,7 +184,7 @@
                   <i class="fa fa-star-o"></i>
                   <i class="fa fa-star-o"></i>
                 </div>
-                <h5>{{ "{:,.1f}".format(b.unitPrice) }}</h5>
+                <h5>{{ "{:,.1f}".format(b.unitPrice) }}VNĐ</h5>
               </div>
             </div>
           </div>
@@ -707,11 +703,13 @@
         <div class="row">
           <div class="col-lg-12">
             <div class="product__pagination">
-              <a class="active" href="/shop?page=1">1</a>
+              <a class="pre" href=""><i class="fa fa-angle-left"></i></a>
+              <!-- <a class="active" href="/shop?page=1">1</a>
               <a href="/shop?page=2">2</a>
               <a href="/shop?page=3">3</a>
               <span>...</span>
-              <a href="#">21</a>
+              <a href="#">21</a> -->
+              <a class="next" href=""><i class="fa fa-angle-right"></i> </a>
             </div>
           </div>
         </div>

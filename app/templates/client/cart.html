@@ -1,0 +1,188 @@
+{% extends 'layout/base.html' %} {% block content %}
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-option">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="breadcrumb__text">
+          <h4>Shopping Cart</h4>
+          <div class="breadcrumb__links">
+            <a href="./index.html">Home</a>
+            <a href="./shop.html">Shop</a>
+            <span>Shopping Cart</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<!-- Shopping Cart Section Begin -->
+<section class="shopping-cart spad">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="shopping__cart__table">
+          <table>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for c in cart.values() %}
+              <tr id="row_cart_{{c.id}}">
+                <td class="product__cart__item" id="cart_{{c.id}}">
+                  <div class="product__cart__item__pic">
+                    <img src="img/shopping-cart/cart-1.jpg" alt="" />
+                  </div>
+                  <div class="product__cart__item__text">
+                    <h6>{{ c.name }}</h6>
+                    <h5 id="cart_price_{{c.id}}">{{ c.price }}</h5>
+                  </div>
+                </td>
+                <td class="quantity__item" id="cart_quantity_{{c.id}}">
+                  <div class="quantity">
+                    <div class="pro-qty-2">
+                      <span
+                        onclick="changeDownQuantity({{c.id}})"
+                        class="fa fa-angle-left dec qtybtn"
+                      ></span>
+                      <input type="text" value="{{c.quantity}}" />
+                      <span
+                        onclick="changeUpQuantity({{c.id}})"
+                        class="fa fa-angle-right inc qtybtn"
+                      ></span>
+                    </div>
+                  </div>
+                </td>
+                <td class="cart__price" id="cart_total_price_{{c.id}}">
+                  {{ c.price * c.quantity}}
+                </td>
+                <td onclick="deleteItem({{c.id}})" class="cart__close">
+                  <i class="fa fa-close"></i>
+                </td>
+              </tr>
+              {% endfor %}
+              <!-- <tr>
+                <td class="product__cart__item">
+                  <div class="product__cart__item__pic">
+                    <img src="img/shopping-cart/cart-2.jpg" alt="" />
+                  </div>
+                  <div class="product__cart__item__text">
+                    <h6>Diagonal Textured Cap</h6>
+                    <h5>$98.49</h5>
+                  </div>
+                </td>
+                <td class="quantity__item">
+                  <div class="quantity">
+                    <div class="pro-qty-2">
+                      <input type="text" value="1" />
+                    </div>
+                  </div>
+                </td>
+                <td class="cart__price">$ 32.50</td>
+                <td class="cart__close"><i class="fa fa-close"></i></td>
+              </tr>
+              <tr>
+                <td class="product__cart__item">
+                  <div class="product__cart__item__pic">
+                    <img src="img/shopping-cart/cart-3.jpg" alt="" />
+                  </div>
+                  <div class="product__cart__item__text">
+                    <h6>Basic Flowing Scarf</h6>
+                    <h5>$98.49</h5>
+                  </div>
+                </td>
+                <td class="quantity__item">
+                  <div class="quantity">
+                    <div class="pro-qty-2">
+                      <input type="text" value="1" />
+                    </div>
+                  </div>
+                </td>
+                <td class="cart__price">$ 47.00</td>
+                <td class="cart__close"><i class="fa fa-close"></i></td>
+              </tr>
+              <tr>
+                <td class="product__cart__item">
+                  <div class="product__cart__item__pic">
+                    <img src="img/shopping-cart/cart-4.jpg" alt="" />
+                  </div>
+                  <div class="product__cart__item__text">
+                    <h6>Basic Flowing Scarf</h6>
+                    <h5>$98.49</h5>
+                  </div>
+                </td>
+                <td class="quantity__item">
+                  <div class="quantity">
+                    <div class="pro-qty-2">
+                      <input type="text" value="1" />
+                    </div>
+                  </div>
+                </td>
+                <td class="cart__price">$ 30.00</td>
+                <td class="cart__close"><i class="fa fa-close"></i></td>
+              </tr> -->
+            </tbody>
+          </table>
+        </div>
+        <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-6">
+            <div class="continue__btn">
+              <a href="/shop?page=1">Continue Shopping</a>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-6">
+            <div class="continue__btn update__btn">
+              <a
+                onclick="updateCart(getCartFromWeb({{cart}}))"
+                href="javascript:;"
+                ><i class="fa fa-spinner"></i> Update cart</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="cart__discount">
+          <h6>Discount codes</h6>
+          <form onsubmit="event.preventDefault(); applyVoucher(event)">
+            <input type="text" placeholder="Coupon code" name="code" />
+            <button type="submit">Apply</button>
+          </form>
+          <span class="msg_voucher__succ text-success"></span>
+          <span class="msg_voucher__err text-danger"></span>
+        </div>
+        <div class="cart__total">
+          <h6>Cart total</h6>
+          <ul>
+            <li>
+              Subtotal
+              <span id="sub_total">{{ cart_stats.total_amount }} VNĐ</span>
+            </li>
+            <li>
+              <!-- Total {% if voucher and voucher.rate %}
+              <span id
+                >{{cart_stats.total_amount * voucher.rate / 100}} VNĐ</span
+              >
+              {% else %}
+              <span>{{cart_stats.total_amount }} VNĐ</span>
+              {% endif %} -->
+              Total
+              <span id="total">{{ cart_stats.total_amount }} VNĐ</span>
+            </li>
+          </ul>
+          <!-- onclick="updateReciept(getCartFromWeb({cart}, {price: parseInt(document.querySelector('#total').innerHTML)}))" -->
+          <a href="/checkout" class="primary-btn">Proceed to checkout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Shopping Cart Section End -->
+{% endblock %}

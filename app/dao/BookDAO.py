@@ -1,7 +1,7 @@
 from app.models.index import * 
 from app import db
 from flask_login import current_user
-from sqlalchemy import func
+from sqlalchemy import func, desc
 from sqlalchemy.sql import alias
 import hashlib
 
@@ -27,11 +27,30 @@ def load_products(category_id=None, kw=None):
 
     return query.all()
 
-def getAll(page = None):
+def getAll(page = None, category = None, kw = None, tag = None, sort = None):
     query = BookModel.query
-    if page:
-        page = int(page)
-        page_size = 1
-        query = query.limit(page_size).offset(page*page_size - 1)
-    print(query.all())    
+    if category:
+        query = query.filter(category == BookModel.category_id)
+    if kw:
+        kw = kw.replace("+"," ")
+        query = query.filter(BookModel.name.contains(kw))
+    if page is None:
+        page = 1
+    if sort:
+        if sort == "0":
+            query = query.order_by()
+        else:
+            query = query.order_by(desc(BookModel.unitPrice))
+    page = int(page)
+    page_size = 3
+    query = query.limit(page_size).offset(page*page_size - page_size)
     return query.all()
+
+def getCategories():
+    return CategoryModel.query.all()
+
+def getTags():
+    return Tag.query.all()
+
+def getBook(id):
+    return BookModel.query.get(id)
