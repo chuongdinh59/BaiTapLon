@@ -125,7 +125,7 @@ function changeUpQuantity(id) {
   let newQuantity = parseInt(quantity.value) + 1;
   quantity.setAttribute("value", `${newQuantity}`);
   const price = document.querySelector(`#cart_price_${id}`);
-  const total_price = document.querySelector(`#-cart_total_price_${id}`);
+  const total_price = document.querySelector(`#cart_total_price_${id}`);
   let newPrice = newQuantity * parseInt(price.innerHTML);
   subtotal.innerHTML =
     parseInt(subtotal.innerHTML) + parseInt(price.innerHTML) + " VNĐ";
@@ -153,7 +153,9 @@ function deleteItem(id) {
   let newQuantity = parseInt(quantity.value);
   const price = document.querySelector(`#cart_price_${id}`);
   let newPrice = newQuantity * parseInt(price.innerHTML);
+  let total = document.querySelector("#total");
   subtotal.innerHTML = parseInt(subtotal.innerHTML) - newPrice + " VNĐ";
+  total.innerHTML = subtotal.innerHTML;
   item.remove();
 }
 
@@ -165,6 +167,7 @@ function verifyAddToCart(id, name, unitPrice, isLogin = "False") {
 }
 
 function getCartFromWeb(cart, option = {}) {
+  console.log(cart);
   const list_cart_web = document.querySelectorAll(".product__cart__item");
   const id = [];
   list_cart_web.forEach((item) => id.push(item?.id.replace("cart_", "")));
@@ -246,5 +249,101 @@ function change_image(image) {
 
   container.src = image.src;
 }
+function deleteAllCookies() {
+  var cookies = document.cookie.split(";");
 
-document.addEventListener("DOMContentLoaded", function (event) {});
+  for (var i = 0; i < cookies.length; i++) {
+    var cookie = cookies[i];
+    var eqPos = cookie.indexOf("=");
+    var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+    console.log(name);
+    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+  }
+}
+function logout() {
+  localStorage.clear();
+  sessionStorage.clear();
+  document.cookie =
+    "username=session; expires=Thu, 18 Dec 2013 12:00:00 UTC; path=/";
+  redirect("/");
+}
+
+function applyCommentWeb(content, user_id, user_name) {
+  console.log(content, user_id);
+  let comment = document.querySelector("#comment");
+  let comment_list = document.querySelector(".comment-list");
+  comment.value = "";
+  comment_list.innerHTML += `<div class="d-flex" style="width: 100%">
+        <div class="d-flex" style="width: 80%">
+          <p class="text-primary" style="width: 10%">${user_name}</p>
+          <p>${content}</p>
+        </div>
+        <p class="text-right flex-1">Vừa xong</p>
+      </div>`;
+}
+
+function saveBook(id, name, price) {
+  console.log(1);
+  let book = localStorage.getItem("book");
+  if (!book) {
+    book = {};
+    book[id] = { id, name, price };
+    localStorage.setItem("book", JSON.stringify(book));
+  } else {
+    let oldbook = JSON.parse(book);
+    let newBook = {
+      ...oldbook,
+      [id]: { id, name, price },
+    };
+    localStorage.setItem("book", JSON.stringify(newBook));
+  }
+  renderBookBill();
+}
+
+function applyPrice(event, id) {
+  let reciept_price = document.querySelector(".reciept_price");
+  let b = document.querySelector(`#item-${id} #item-price`);
+  reciept_price.innerHTML =
+    parseInt(reciept_price.innerHTML) +
+    parseInt(event.target.value) * parseInt(b.innerHTML);
+}
+
+function getOrderFromEmployee(user_id) {
+  let c = localStorage.getItem("book");
+  if (!c) return;
+  c = JSON.parse(c);
+  keys = Object.keys(c);
+  keys.forEach((key) => {
+    let unitItem = document.querySelector(`#item-${key} #quantity-${key}`);
+    let v = parseInt(unitItem.value);
+    c[key] = {
+      ...c[key],
+      quantity: v,
+    };
+  });
+  console.log({
+    ...c,
+    user_id: user_id,
+    address: "Mua trực tiếp",
+    note: "không có",
+    voucher: null,
+  });
+  return {
+    cart: { ...c },
+    user_id: user_id,
+    address: "Mua trực tiếp",
+    note: "không có",
+    voucher: null,
+  };
+}
+function deleteBookEm(id) {
+  let b = localStorage.getItem("book");
+  if (!b) return;
+  b = JSON.parse(b);
+  let reciept_price = document.querySelector(".reciept_price ");
+  reciept_price.innerHTML =
+    parseInt(reciept_price.innerHTML) - parseInt(b[id].price);
+  delete b[id];
+  localStorage.setItem("book", JSON.stringify(b));
+  let c = document.querySelector(`#item-${id}`).remove();
+}

@@ -1,8 +1,12 @@
 .option {
   display: block;
 }
-body {
+/* body {
   background-color: #000;
+} */
+.book {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  padding: 20px;
 }
 .card {
   border: none;
@@ -62,4 +66,8 @@ label.radio input:checked + span {
 }
 .cart i {
   margin-right: 10px;
+}
+
+.flex-1 {
+  flex: 1;
 }

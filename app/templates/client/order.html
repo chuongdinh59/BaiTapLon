@@ -5,12 +5,13 @@
   <h4 class="col-md-6 col">Tiến độ xử lý</h4>
   <h4 class="col col-md-2">Trạng thái</h4>
 </div>
+{% for o in order %}
 <div class="row fl">
   <div class="col col-md-4">
     <div class="bo">
       <div>
-        <p>Đơn hàng: #1110</p>
-        <p class="text-danger">Tổng thu: 100000</p>
+        <p>Đơn hàng: #{{o.id}}</p>
+        <p class="text-danger">Ngày đặt: {{o.orderDate}}</p>
       </div>
     </div>
   </div>
@@ -30,4 +31,4 @@
     <span class="text-info">Đang giao hàng</span>
   </div>
 </div>
-{% endblock %}
+{% endfor %} {% endblock %}

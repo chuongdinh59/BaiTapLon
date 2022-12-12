@@ -13,7 +13,11 @@
     </div>
     <div class="offcanvas__top__hover">
       {% if current_user.is_authenticated %}
-      <span>Đăng xuất </span>
+      <form action="/logout">
+        <button style="background-color: #000" type="submit" onclick="logout()">
+          Đăng xuất
+        </button>
+      </form>
       {% endif %}
     </div>
   </div>
@@ -54,7 +58,21 @@
             </div>
             <div class="header__top__hover">
               {% if current_user.is_authenticated %}
-              <span>Đăng xuất </span>
+              <form action="/logout">
+                <button
+                  style="
+                    background-color: #000;
+                    color: #fff;
+                    font-size: 13px;
+                    letter-spacing: 2px;
+                    text-transform: uppercase;
+                  "
+                  type="submit"
+                  onclick="logout()"
+                >
+                  Đăng xuất
+                </button>
+              </form>
               {% endif %}
             </div>
           </div>

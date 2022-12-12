@@ -178,11 +178,53 @@
             </li>
           </ul>
           <!-- onclick="updateReciept(getCartFromWeb({cart}, {price: parseInt(document.querySelector('#total').innerHTML)}))" -->
-          <a href="/checkout" class="primary-btn">Proceed to checkout</a>
+          <a
+            style="color: #fff"
+            onclick="checkCart(getCartFromWeb({{cart}}))"
+            class="primary-btn"
+            >Proceed to checkout</a
+          >
         </div>
       </div>
     </div>
   </div>
 </section>
+<button
+  type="button"
+  class="btn btn-info btn-lg"
+  data-toggle="modal"
+  data-target="#myModal"
+  id="btnModalCart"
+  style="display: none"
+>
+  Open Modal
+</button>
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Đặt thành hàng thành công</h4>
+        <button type="button" class="close" data-dismiss="modal">
+          &times;
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="text-success cart-isunvalid">Đơn hàng đã được ghi nhận</p>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-default"
+          data-dismiss="modal"
+          onclick=""
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- Shopping Cart Section End -->
 {% endblock %}

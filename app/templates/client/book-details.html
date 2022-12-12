@@ -11,13 +11,9 @@
           <div class="col-md-6">
             <div class="images p-3">
               <div class="text-center p-4">
-                <img
-                  id="main-image"
-                  src="https://theedge.vn/wp-content/uploads/2020/11/sach-hoc-ielts-cho-nguoi-moi-bat-dau.jpg"
-                  width="250"
-                />
+                <img id="main-image" src="{{book.thumb}}" width="250" />
               </div>
-              <div class="thumbnail text-center">
+              <!-- <div class="thumbnail text-center">
                 <img
                   onclick="change_image(this)"
                   src="https://theedge.vn/wp-content/uploads/2020/11/sach-hoc-ielts-cho-nguoi-moi-bat-dau.jpg"
@@ -28,7 +24,7 @@
                   src="http://st.ebomb.edu.vn/src/ielts-fighter/2019/08/26/8-cuon-sach-khong-the-bo-qua-khi-luyen-thi-ielts-1.jpg"
                   width="70"
                 />
-              </div>
+              </div> -->
             </div>
           </div>
           <div class="col-md-6">
@@ -66,6 +62,54 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+  <div class="row">
+    <h4 class="text-danger p-3">Nhận xét</h4>
+    <div class="input-group mb-3">
+      {% if current_user.is_authenticated %}
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Hãy để lại bình luận"
+        aria-label="Recipient's username"
+        aria-describedby="basic-addon2"
+        name="comment"
+        id="comment"
+      />
+      {% else %}
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Hãy để lại bình luận"
+        aria-label="Recipient's username"
+        aria-describedby="basic-addon2"
+        name="comment"
+        id="comment"
+        disabled
+      />
+      {% endif %}
+      <div class="input-group-append">
+        <button
+          class="btn btn-outline-secondary"
+          onclick="postComment( document.querySelector('#comment').value , 
+          {{current_user.id}}, '{{current_user.firstname}}', {{book.id}})"
+          type="button"
+        >
+          POST
+        </button>
+      </div>
+    </div>
+    <div class="flex-row comment-list" style="width: 100%">
+      {% for c in comment %}
+      <div class="d-flex" style="width: 100%">
+        <div class="d-flex" style="width: 80%">
+          <p class="text-primary" style="width: 10%">{{c.firstname}}:</p>
+          <p>{{c.content}}</p>
+        </div>
+        <p class="text-right flex-1">{{c.created_date}}</p>
+      </div>
+      {% endfor %}
     </div>
   </div>
 </div>

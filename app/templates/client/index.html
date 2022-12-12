@@ -74,32 +74,32 @@
             <img src="{{ url_for('static', filename='images/banner/banner-1.jpg') }}" alt="" />
           </div>
           <div class="banner__item__text">
-            <h2>Clothing Collections 2030</h2>
-            <a href="#">Shop now</a>
+            <h2>Book Collections 2030</h2>
+            <a href="/shop?page=1">Shop now</a>
           </div>
         </div>
       </div>
       <div class="col-lg-5">
         <div class="banner__item banner__item--middle">
-          <div class="banner__item__pic">
+          <div class="banner__item__pic" style="width: 80%;">
             <img src="{{ url_for('static', filename='images/sale.png') }}" alt="" />
 
           </div>
           <div class="banner__item__text">
             <h2>Accessories</h2>
-            <a href="#">Shop now</a>
+            <a href="/shop?page=1">Shop now</a>
           </div>
         </div>
       </div>
       <div class="col-lg-7">
         <div class="banner__item banner__item--last">
-          <div class="banner__item__pic">
-                        <img src="{{ url_for('static', filename='images/banner/banner-3.jpg') }}" alt="" />
+          <div class="banner__item__pic" style="width: 60%;">
+                  <img src="{{ url_for('static', filename='images/manga.jpg') }}" alt="" />
 
           </div>
           <div class="banner__item__text">
-            <h2>Shoes Spring 2030</h2>
-            <a href="#">Shop now</a>
+            <h2>Sping Manga</h2>
+            <a href="/shop?page=1">Shop now</a>
           </div>
         </div>
       </div>
@@ -109,7 +109,7 @@
 <!-- Banner Section End -->
 
 <!-- Product Section Begin -->
-<section class="product spad">
+<!-- <section class="product spad">
   <div class="container">
     <div class="row">
       <div class="col-lg-12">
@@ -124,6 +124,53 @@
       <div
         class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix new-arrivals"
       >
+      {% for c in l_bsell %}
+      <div class="product__item">
+          <div
+            class="product__item__pic set-bg"
+            data-setbg="{{ url_for('static', filename='images/product/product-1.jpg') }}"
+          >
+            <span class="label">New</span>
+            <ul class="product__hover">
+              <li>
+                <a href="#"><img src="{{ url_for('static', filename='images/icon/heart.png') }}" alt="" /></a>
+              </li>
+              <li>
+                <a href="#"
+                  ><img src="{{ url_for('static', filename='images/icon/compare.png') }}" alt="" />
+                  <span>Compare</span></a
+                >
+              </li>
+              <li>
+                <a href="#"><img src="{{ url_for('static', filename='images/icon/search.png') }}" alt="" /></a>
+              </li>
+            </ul>
+          </div>
+          <div class="product__item__text">
+            <h6>Piqué Biker Jacket</h6>
+            <a href="#" class="add-cart">+ Add To Cart</a>
+            <div class="rating">
+              <i class="fa fa-star-o"></i>
+              <i class="fa fa-star-o"></i>
+              <i class="fa fa-star-o"></i>
+              <i class="fa fa-star-o"></i>
+              <i class="fa fa-star-o"></i>
+            </div>
+            <h5>$67.24</h5>
+            <div class="product__color__select">
+              <label for="pc-1">
+                <input type="radio" id="pc-1" />
+              </label>
+              <label class="active black" for="pc-2">
+                <input type="radio" id="pc-2" />
+              </label>
+              <label class="grey" for="pc-3">
+                <input type="radio" id="pc-3" />
+              </label>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
         <div class="product__item">
           <div
             class="product__item__pic set-bg"
@@ -502,7 +549,7 @@
       </div>
     </div>
   </div>
-</section>
+</section> -->
 <!-- Product Section End -->
 
 <!-- Categories Section Begin -->

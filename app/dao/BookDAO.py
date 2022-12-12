@@ -2,21 +2,23 @@ from app.models.index import *
 from app import db
 from flask_login import current_user
 from sqlalchemy import func, desc
-from sqlalchemy.sql import alias
-import hashlib
+
+def getHomeProduct(type = "best seller"):
+    # query = BookModel.query.join(Tag, c ,  isouter=True)\
+    #     .filter(book_tag.c.tag_id == Tag.id  and BookModel.id == book_tag.c.id)
+    # query = query.join(BookModel).filter(BookModel.id == query.id)
+    # query = db.session.query(BookModel)\
+    #                   .join(book_tag, BookModel.id.__eq__(book_tag.c.book_id))\
+    #                   .join(Tag, Tag.id.__eq__(book_tag.c.book_id))
+    # query = db.session.query(BookModel.id, BookModel.name, BookModel.desc, BookModel.isOutofStock, BookModel.unitPrice, BookModel.thumb, BookModel.category_id)\
+    #                  .join(book_tag, book_tag.c.book_id == BookModel.id)\
+    #                  .join(Tag, Tag.name.__eq__("best seller") and book_tag.c.tag_id == Tag.id )
+    query = BookModel.query\
+                     .join(book_tag, book_tag.c.book_id == BookModel.id)\
+                     .join(Tag, book_tag.c.tag_id == Tag.id ).filter(Tag.name == type )
+    return query.limit(8).all()
 
 
-def getBestSeller():
-    # Lấy những sản phẩn có tag name là best seller
-    # query = BookModel.query.join(book_tag)\
-    #     .filter( BookModel.id == book_tag.c.book_id).alias("temp")
-    
-    # query = temp.join(Tag).filter(query.c.tag_id == Tag.id).all() 
-
-    pass
-
-def getNewArival():
-    pass
 
 def load_products(category_id=None, kw=None):
     query = BookModel.query
@@ -27,8 +29,8 @@ def load_products(category_id=None, kw=None):
 
     return query.all()
 
-def getAll(page = None, category = None, kw = None, tag = None, sort = None):
-    query = BookModel.query
+def getAll(page = None, category = None, kw = None, tag = None, sort = None, page_size = None):
+    query = BookModel.query.filter(BookModel.isOutofStock.__eq__(1))
     if category:
         query = query.filter(category == BookModel.category_id)
     if kw:
@@ -41,9 +43,12 @@ def getAll(page = None, category = None, kw = None, tag = None, sort = None):
             query = query.order_by()
         else:
             query = query.order_by(desc(BookModel.unitPrice))
-    page = int(page)
-    page_size = 3
-    query = query.limit(page_size).offset(page*page_size - page_size)
+    if tag:
+        query = query
+    if page_size:
+        page = int(page)
+        # page_size = 12
+        query = query.limit(page_size).offset(page*page_size - page_size)
     return query.all()
 
 def getCategories():
@@ -54,3 +59,7 @@ def getTags():
 
 def getBook(id):
     return BookModel.query.get(id)
+
+def getComment(book_id):
+    return Comment.query.join(UserModel, UserModel.id == Comment.user_id).filter(Comment.book_id==book_id)\
+        .with_entities(UserModel.firstname, Comment.content, Comment.created_date).all()
