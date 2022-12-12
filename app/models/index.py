@@ -42,6 +42,7 @@ class CategoryModel(BaseModel):
 class AuthorModel(BaseModel):
    __tablename__ = 'author'
    name = Column(String(100),nullable=False)
+   books = relationship('BookModel', backref='author', lazy=False)
    def __str__(self):
       return self.name
 
@@ -52,6 +53,7 @@ class BookModel(BaseModel):
     isOutofStock = Column(Boolean, nullable = False, default = True)
     unitPrice = Column(Float, nullable = False, default = 0)
     thumb = Column(Text)
+    author_id =  Column(Integer, ForeignKey(AuthorModel.id))
     category_id = Column(Integer, ForeignKey(CategoryModel.id), nullable=False)
     numberOfBook =  Column(Integer,default=50, nullable = False)
     receipt_details = relationship('ReceiptDetailsModels', backref='book', lazy=True)
@@ -159,13 +161,6 @@ with app.app_context():
     # unitPrice = Column(Float, nullable = False, default = 0)
     # thumb = Column(Text)
 
-    # b2 = BookModel(name = "Sách 2" , desc = "Sách 2 ", unitPrice = 70000, category_id = 2)
-    # b3 = BookModel(name = "Sách 3" , desc = "Sách 3 ", unitPrice = 70000, category_id = 3)
-    # b4 = BookModel(name = "Sách 4" , desc = "Sách 4 ", unitPrice = 70000, category_id = 4)
-    # db.session.add(b2)
-    # db.session.add(b3)
-    # db.session.add(b4)
-    # db.session.commit()
     # b2 = BookModel(name = "Nhà Giả Kim (Tái Bản 2020)" , desc = "Tiểu thuyết Nhà giả kim của Paulo Coelho như một câu chuyện cổ tích giản dị, nhân ái, giàu chất thơ, thấm đẫm những minh triết huyền bí của phương Đông. Trong lần xuất bản đầu tiên tại Brazil vào năm 1988, sách chỉ bán được 900 bản. Nhưng, với số phận đặc biệt của cuốn sách dành cho toàn nhân loại, vượt ra ngoài biên giới quốc gia, Nhà giả kim đã làm rung động hàng triệu tâm hồn, trở thành một trong những cuốn sách bán chạy nhất mọi thời đại, và có thể làm thay đổi cuộc đời người đọc. ", unitPrice = 55000, category_id = 1, thumb="https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_36793.jpg")
     # b3 = BookModel(name = "Đất Trời Vần Vũ" , desc = "Đất trời vần vũ được đánh giá rất cao khi xuất bản lần đầu 10 năm trước, đoạt giải C tiểu thuyết Hội Nhà văn VN 2006-2010, tuy khi còn ở dạng bản thảo, đây từng được xem là 1 cuốn sách khó nhằn với giới chức Đất trời vần vũ được đánh giá rất cao khi xuất bản lần đầu 10 năm trước, đoạt giải C tiểu thuyết Hội Nhà văn VN 2006-2010, tuy khi còn ở dạng bản thảo, đây từng được xem là 1 cuốn sách khó nhằn với giới chức kiểm duyệt. Nếu chờ đợi 1 tiểu thuyết thuật tả thông thường, dễ nắm bắt, thì sẽ ít nhiều thất vọng. Là 1 trong rất ít tiểu thuyết viết về Thiên chúa giáo ở Việt Nam, nhưng lồng trong đức tin Thiên chúa là câu chuyện về một vùng đất thiêng từ thời cổ sử lập đất đến thời hiện đại. Biểu tượng xuyên suốt những câu chuyện chồng chéo “xuyên không” là lưỡi dao thiêng ở vùng đất tên Cù lao Dao. Câu chuyện được kể bám theo biểu tượng đó ", unitPrice = 83000, category_id = 1, thumb = "https://cdn0.fahasa.com/media/catalog/product/i/m/image_186065.jpg")
     # b4 = BookModel(name = "Bước Chậm Lại Giữa Thế Gian Vội Vã (Tái Bản 2018)" , desc = "Chen vai thích cánh để có một chỗ bám trên xe buýt giờ đi làm, nhích từng xentimét bánh xe trên đường lúc tan sở, quay cuồng với thi cử và tiến độ công việc, lu bù vướng mắc trong những mối quan hệ cả thân lẫn sơ… bạn có luôn cảm thấy thế gian xung quanh mình đang xoay chuyển quá vội vàng?Nếu có thể, hãy tạm dừng một bước. ", unitPrice = 59000, category_id = 1, thumb="https://cdn0.fahasa.com/media/catalog/product/b/u/buoc_cham_lai_giua_the_gian_voi_va.u335.d20160817.t102115.612356.jpg")

@@ -46,7 +46,6 @@ def stats_revenue(kw=None, from_date=None, to_date=None):
     query = db.session.query(BookModel.id, BookModel.name, func.sum(ReceiptDetailsModels.quantity*ReceiptDetailsModels.price))\
                       .join(ReceiptDetailsModels, ReceiptDetailsModels.book_id.__eq__(BookModel.id))\
                       .join(ReceiptModel, ReceiptModel.id.__eq__(ReceiptDetailsModels.receip_id))
-
     if kw:
         query = query.filter(BookModel.name.contains(kw))
 

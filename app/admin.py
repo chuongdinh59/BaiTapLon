@@ -28,15 +28,16 @@ class CKTextAreaWidget(TextArea):
         return super(CKTextAreaWidget, self).__call__(field, **kwargs)
 class CKTextAreaField(TextAreaField):
     widget = CKTextAreaWidget()
-class BookModelView (ModelView):
+class BookModelView (AuthenticatedModelView):
     column_filters = ['name', 'unitPrice','isOutofStock']
+    column_exclude_list = ['thumb']
+    form_excluded_columns = ('thumb')
     column_labels = {
         'name': 'Tên sản phẩm',
         'unitPrice': 'Giá',
         'desc': 'Mô tả',
         'isOutofStock': 'Tình trạng'
     }
-    column_exclude_list = ('thumb')
     can_view_details = True
     can_export = True
     page_size = 5
@@ -71,7 +72,7 @@ class MyAdminView(AdminIndexView):
 
 admin = Admin(app, name='QUẢN TRỊ BÁN SÁCH', template_mode='bootstrap4' , index_view=MyAdminView())
 
-admin.add_view(AuthenticatedModelView(BookModel, db.session, name="Quản lý sách"))
+admin.add_view(BookModelView(BookModel, db.session, name="Quản lý sách"))
 admin.add_view(AuthenticatedModelView(Tag, db.session))
 admin.add_view(LogoutView(name = "Đăng xuất"))
 
